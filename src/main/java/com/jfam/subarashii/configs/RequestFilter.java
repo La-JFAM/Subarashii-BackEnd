@@ -36,6 +36,13 @@ public class RequestFilter extends OncePerRequestFilter {
     @Autowired
     UserService userService;
 
+    private final String[] arrayPathAllow = new String[] {
+            "/users/sign-in",
+            "/users/sign-up",
+            "/animes/fullsearch",
+            "/genres/all"
+    };
+
     private static final Logger logger = LoggerFactory.getLogger(RequestFilter.class);
 
     @Override
@@ -75,11 +82,20 @@ public class RequestFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         if(Constantes.ENVIRONNEMENT_TYPE.equals("local")){
-
-            return path.contains(Constantes.ROUTE_SIGN_UP) || path.contains(Constantes.ROUTE_SIGN_IN) ||
-                    path.startsWith("/swagger-ui/") || path.startsWith("/api");
+            return checkIfPathContainRouteAllowProduction(path) || path.startsWith("/swagger-ui/") || path.startsWith("/api");
         }
 
-        return path.contains(Constantes.ROUTE_SIGN_UP) || path.contains(Constantes.ROUTE_SIGN_IN);
+
+        return checkIfPathContainRouteAllowProduction(path);
     }
+
+    private boolean checkIfPathContainRouteAllowProduction(String path){
+        for (String route: arrayPathAllow) {
+            if(path.contains(route))
+                return true;
+        }
+        return false;
+    }
+
+
 }
