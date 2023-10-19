@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.jfam</groupId>
-	<artifactId>subarashii</artifactId>
+	<artifactId>ROOT</artifactId>
 	<version>1.1.0</version>
 	<packaging>war</packaging>
 	<name>subarashii</name>
